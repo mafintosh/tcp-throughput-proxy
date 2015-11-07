@@ -1,6 +1,6 @@
 {
   "name": "tcp-throughput-proxy",
-  "version": "1.0.2",
+  "version": "1.1.0",
   "description": "Proxy that allows you to monitor how much incoming trafic it is receiving.",
   "main": "bin.js",
   "dependencies": {
