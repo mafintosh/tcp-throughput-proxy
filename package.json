@@ -1,0 +1,26 @@
+{
+  "name": "tcp-throughput-proxy",
+  "version": "0.0.0",
+  "description": "Proxy that allows you to monitor how much incoming trafic it is receiving.",
+  "main": "bin.js",
+  "dependencies": {
+    "minimist": "^1.2.0",
+    "pretty-bytes": "^2.0.1",
+    "single-line-stream": "^1.1.0",
+    "speedometer": "^1.0.0"
+  },
+  "devDependencies": {},
+  "bin": {
+    "tcp-throughput-proxy": "./bin.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mafintosh/tcp-throughput-proxy.git"
+  },
+  "author": "Mathias Buus (@mafintosh)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/mafintosh/tcp-throughput-proxy/issues"
+  },
+  "homepage": "https://github.com/mafintosh/tcp-throughput-proxy"
+}
