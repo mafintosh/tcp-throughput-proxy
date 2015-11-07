@@ -32,24 +32,22 @@ if (argv.to) {
 if (!argv.from) argv.from = proxyPort || 10000
 if (!argv.monitor) argv.monitor = argv.from + 1
 
-var speed = speedometer()
+var receiving = speedometer()
+var sending = argv.to ? speedometer() : null
 var connections = 0
 
 var server = net.createServer(function (socket) {
-  onsocket(socket)
-  if (proxyPort) pump(socket, net.connect(proxyPort, proxyHost), socket)
-
+  if (proxyPort) pump(socket, net.connect(proxyPort, proxyHost).on('data', onsend), socket)
   connections++
-  socket.on('close', function () {
-    connections--
-  })
-  socket.on('data', function (data) {
-    speed(data.length)
-  })
+  socket.on('end', onend)
+  socket.on('error', onerror)
+  socket.on('close', onclose)
+  socket.on('data', onreceive)
 })
 
 var monitor = net.createServer(function (socket) {
-  onsocket(socket)
+  socket.on('end', onend)
+  socket.on('error', onerror)
 
   var stream = log()
   var interval = setInterval(progress, 500)
@@ -60,7 +58,11 @@ var monitor = net.createServer(function (socket) {
   })
 
   function progress () {
-    stream.write(connections + ' open connections\nReceiving ' + pretty(speed()) + '/s\n')
+    stream.write(
+      connections + ' open connections\n' +
+      'Receiving ' + pretty(receiving()) + '/s\n' +
+      (sending ? 'Sending ' + pretty(sending()) + '/s\n' : '')
+    )
   }
 })
 
@@ -72,11 +74,22 @@ monitor.listen(argv.monitor, function () {
   })
 })
 
-function onsocket (socket) {
-  socket.on('end', function () {
-    socket.end()
-  })
-  socket.on('error', function () {
-    socket.destroy()
-  })
+function onreceive (data) {
+  receiving(data.length)
+}
+
+function onsend (data) {
+  sending(data.length)
+}
+
+function onclose () {
+  connections--
+}
+
+function onerror () {
+  this.destroy()
+}
+
+function onend () {
+  this.end()
 }
