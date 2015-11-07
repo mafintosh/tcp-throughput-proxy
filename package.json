@@ -6,6 +6,7 @@
   "dependencies": {
     "minimist": "^1.2.0",
     "pretty-bytes": "^2.0.1",
+    "pump": "^1.0.1",
     "single-line-stream": "^1.1.0",
     "speedometer": "^1.0.0"
   },
