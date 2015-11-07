@@ -32,11 +32,11 @@ nc localhost 10001
 The monitor server should start printing out stats in the following format
 
 ```
-0 open connetions
+0 open connections
 Receiving 0 b/s
 ```
 
-If you open up another tpc connection to the proxy server and start writing
+If you open up another tcp connection to the proxy server and start writing
 data you should see the receive speed go up. For example to write a bunch of random
 data to it do
 
@@ -44,6 +44,8 @@ data to it do
 # pipe a bunch of random data to the proxy
 cat /dev/random | nc localhost 10000
 ```
+
+After executing the above you should see receive speed in the monitor connection go up
 
 ## License
 
